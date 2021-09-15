@@ -8,6 +8,8 @@ export const useFetch = (startDate, endDate) => {
             .then(x => x.json())
             .then(y => {
                 setUnformedData(y.bpi);
+            }).catch((error) => {
+                console.log(error)
             })
     }, [startDate, endDate]);
     
