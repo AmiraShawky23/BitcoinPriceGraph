@@ -9,8 +9,8 @@ const LineChart = ({data, labels}) => {
                 datasets: [{
                     label: 'Price of Bitcoin in USD',
                     data: data,
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    borderColor: 'rgba(255, 99, 132, 1)',
+                    backgroundColor: 'rgba(99, 169, 255, 0.2)',
+                    borderColor: 'rgba(99, 169, 255, 1)',
                     borderWidth: 2
                 }],
                 options: {
