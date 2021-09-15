@@ -7,3 +7,45 @@
     width: 90%;
     margin: 3rem auto;
 }
+.formContainer {
+    width: 90%;
+    margin: 3rem auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+.formContainer button {
+    background-color: rgba(255, 99, 132, 0.2);
+    border: 2px solid rgba(255, 99, 132, 0.3);
+    text-align: center;
+    padding: 0.5rem 2rem;
+    margin: 0.3rem 0.5rem;
+    font-weight: 600;
+    color: rgb(82, 82, 82);
+}
+.formContainer input:hover {
+    cursor: pointer;
+}
+.formContainer button:hover {
+    cursor: pointer;
+    background-color: rgba(255, 99, 132, 0.3);
+    border: 2px solid rgba(255, 99, 132, 0.5);
+    transition: all 0.3s ease-in-out;
+}
+.formContainer input {
+    padding: 0.5rem;
+    margin: 0.3rem 0.5rem;
+}
+@media screen and (max-width: 786px) {
+    .formContainer {
+        flex-direction: column;
+    }
+    .formContainer button {
+        padding: 0.7rem 0.5rem;
+        margin: 0.3rem 0;
+    }
+    .formContainer input {
+        padding: 0.5rem;
+        margin: 0.3rem 0;
+    }
+}
