@@ -1,13 +1,49 @@
+import { useEffect, useState } from 'react';
 import './App.css';
 import LineChart from './components/LineChart';
+import { useFetch } from './CustomHooks/useFetch';
+import { useForm } from './CustomHooks/useForm';
 
 function App() {
-  let data = ['39882.385', '39154.7917', '38198.685', '39742.4433', '40887.41', '42856.3483', '44606.61', '43804.8083', '46283.2333', '45606.6133'];
-  let labels = ['2021-08-01', '2021-08-02', '2021-08-03', '2021-08-04', '2021-08-05', '2021-08-06', '2021-08-07', '2021-08-08', '2021-08-09', '2021-08-10'];
+
+  // create a date object for today and the date for 10 days before that
+  let today = new Date();
+  let tenDaysBefore = new Date();
+  tenDaysBefore.setDate(tenDaysBefore.getDate() - 10);
+
+  let date = `${today.getFullYear()}-${(today.getMonth()+1) <10 ? '0'+(today.getMonth()+1) : (today.getMonth()+1)}-${today.getDate() < 10 ? '0'+today.getDate() : today.getDate()}`;
+  let date2 = `${tenDaysBefore.getFullYear()}-${(tenDaysBefore.getMonth()+1) <10 ? '0'+(tenDaysBefore.getMonth()+1) : (tenDaysBefore.getMonth()+1)}-${tenDaysBefore.getDate() < 10 ? '0'+tenDaysBefore.getDate() : tenDaysBefore.getDate()}`;
+
+  const [startDate, setStartDate] = useState(date2);
+  const [endDate, setEndDate] = useState(date);
+  
+  // custom form hook for handling the dates update
+  const [values, handleChange] = useForm({ startDate: startDate, endDate: endDate });
+
+  // custom hook for fetching the data upon date change
+  let unformedData = useFetch(startDate,endDate);
+
+  const [data, setData] = useState([]);
+  const [labels, setLabels] = useState([]);
+
+  useEffect(() => {
+    if (unformedData != null) {
+      setLabels(Object.keys(unformedData));
+      setData(Object.values(unformedData));
+    }
+  }, [unformedData]);
+
+  // function for updating the fetch dependencies
+  const handleUpate = () => {
+    setStartDate(values.startDate);
+    setEndDate(values.endDate);
+  }
   return (
     <div className="App">
       <div className="formContainer">
-        
+        <input type="date" name='startDate' onChange={handleChange} value={values.startDate} />
+        <input type="date" name='endDate' onChange={handleChange} value={values.endDate} />
+        <button onClick={() => handleUpate()}>Render</button>
       </div>
       <div className='chart'>
         <LineChart data={data} labels={labels} />
