@@ -16,6 +16,8 @@ function App() {
 
   const [startDate, setStartDate] = useState(date2);
   const [endDate, setEndDate] = useState(date);
+
+  const [error, setError] = useState(false);
   
   // custom form hook for handling the dates update
   const [values, handleChange] = useForm({ startDate: startDate, endDate: endDate });
@@ -25,7 +27,7 @@ function App() {
 
   const [data, setData] = useState([]);
   const [labels, setLabels] = useState([]);
-
+ 
   useEffect(() => {
     if (unformedData != null) {
       setLabels(Object.keys(unformedData));
@@ -35,11 +37,24 @@ function App() {
 
   // function for updating the fetch dependencies
   const handleUpate = () => {
-    setStartDate(values.startDate);
-    setEndDate(values.endDate);
+    if (values.endDate < values.startDate) {
+      setError(true)
+      setTimeout(() => {
+        setError(false);
+      }, 4000);
+    }
+    else {
+      setStartDate(values.startDate);
+      setEndDate(values.endDate);
+    }
   }
   return (
     <div className="App">
+      <div className={`error ${error ? "show" : ''}`}>
+        <div className="errorContainer">
+          <p>This date hasn't come yet or your end date may be before your start date!!</p>
+        </div>
+      </div>
       <div className="formContainer">
         <input type="date" name='startDate' onChange={handleChange} value={values.startDate} />
         <input type="date" name='endDate' onChange={handleChange} value={values.endDate} />
